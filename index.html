@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Climate Change Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body id="myPage">
+
+<div class="topnav">
+    <a href="student_x_page_1.html">Homepage (Student X)</a>
+    <a href="student_y_page_1.html">Student Y</a>
+</div>
+
+<div class="header">
+    <h1>
+        <img src="tmp-image.png" class="top-image" alt="logo" width="75" height="75">
+        Climate Change Dashboard
+    </h1>
+</div>
+
+<!-- Sidebar for Navigation -->
+<nav class="w3-sidebar w3-bar-block w3-white w3-card w3-animate-left w3-xxlarge" style="display:none;z-index:2" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-display-topright w3-text-teal">Close <i class="fa fa-remove"></i></a>
+  <a href="#dashboard" class="w3-bar-item w3-button">Dashboard</a>
+  <a href="#forecast" class="w3-bar-item w3-button">Forecast</a>
+  <a href="#alerts" class="w3-bar-item w3-button">Alerts</a>
+  <a href="#research" class="w3-bar-item w3-button">Research</a>
+  <a href="#contact" class="w3-bar-item w3-button">Contact</a>
+</nav>
+
+<!-- Top Navbar -->
+<div class="w3-top">
+ <div class="w3-bar w3-theme-d2 w3-left-align">
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <a href="#" class="w3-bar-item w3-button w3-teal"><i class="fa fa-cloud w3-margin-right"></i>ClimateWatch</a>
+  <a href="#dashboard" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Dashboard</a>
+  <a href="#forecast" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Forecast</a>
+  <a href="#alerts" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Alerts</a>
+  <a href="#research" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Research</a>
+  <a href="#contact" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Contact</a>
+ </div>
+</div>
+
+<!-- Header -->
+<header class="w3-container w3-theme w3-padding-64 w3-center" id="dashboard">
+  <h1 class="w3-xxxlarge">Climate Change Dashboard</h1>
+  <p>Tracking Climate Data for a Sustainable Future</p>
+</header>
+
+<!-- Forecast Section -->
+<div class="w3-container w3-padding-64 w3-theme-l1" id="forecast">
+  <h2>Weather Forecast</h2>
+  <p>Access real-time and weekly forecasts relevant to your region.</p>
+</div>
+
+<!-- Alerts Section -->
+<div class="w3-container w3-padding-64 w3-theme-l2" id="alerts">
+  <h2>Climate Alerts</h2>
+  <p>Stay informed about floods, bushfires, storms and heatwaves.</p>
+</div>
+
+<!-- Research Section -->
+<div class="w3-container w3-padding-64 w3-theme-l3" id="research">
+  <h2>Climate Research & Analysis</h2>
+  <p>Explore long-term climate data. Export for academic and policy use.</p>
+</div>
+
+<!-- Contact Section -->
+<div class="w3-container w3-padding-64 w3-theme-l4" id="contact">
+  <h2>Contact Us</h2>
+  <form class="w3-container w3-card-4 w3-white w3-padding-16" action="#" method="post">
+    <label>Name</label>
+    <input class="w3-input" type="text" name="Name" required>
+    <label>Email</label>
+    <input class="w3-input" type="email" name="Email" required>
+    <label>Message</label>
+    <textarea class="w3-input" name="Message" required></textarea>
+    <button type="submit" class="w3-button w3-theme w3-right">Send</button>
+  </form>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <p>COSC3106 - Programming Class 5 | ClimateWatch Project</p>
+</div>
+
+<script>
+function w3_open() {
+  var x = document.getElementById("mySidebar");
+  x.style.width = "300px";
+  x.style.paddingTop = "10%";
+  x.style.display = "block";
+}
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+function openNav() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+</script>
+
+</body>
+</html>
