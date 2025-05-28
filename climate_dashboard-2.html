@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Australian Climate Risk Dashboard</title>
     <style>
+        /* Root Variables */
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #764ba2;
+            --success-color: #00b894;
+            --warning-color: #ffeaa7;
+            --danger-color: #e74c3c;
+            --info-color: #3498db;
+            --background: #F5F7FA;
+            --surface: #FFFFFF;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --border: #E9ECEF;
+        }
+
+        /* Reset & Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -13,73 +29,94 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
         }
 
+        /* Header Styles */
         .header {
-            background: white;
+            background: var(--surface);
             padding: 1rem 2rem;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         .logo {
             font-size: 1.5rem;
             font-weight: bold;
-            color: #4285f4;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .nav {
             display: flex;
-            gap: 2rem;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .nav-item {
             padding: 0.5rem 1rem;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 8px;
             transition: all 0.3s ease;
-            color: #666;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            white-space: nowrap;
         }
 
         .nav-item:hover, .nav-item.active {
-            background: #f0f4ff;
-            color: #4285f4;
+            background: rgba(66, 133, 244, 0.1);
+            color: var(--primary-color);
+            transform: translateY(-1px);
         }
 
+        /* Container & Layout */
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
         }
 
+        /* Hero Section */
         .hero {
-            background: white;
-            border-radius: 12px;
+            background: var(--surface);
+            border-radius: 16px;
             padding: 3rem;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             display: grid;
-            grid-template-columns: 1fr 400px;
+            grid-template-columns: 1fr 450px;
             gap: 3rem;
             align-items: center;
         }
 
         .hero-content h1 {
             font-size: 3rem;
-            color: #333;
+            color: var(--text-primary);
             margin-bottom: 1rem;
+            font-weight: 700;
+            line-height: 1.2;
         }
 
         .hero-content p {
             font-size: 1.2rem;
-            color: #666;
+            color: var(--text-secondary);
             margin-bottom: 2rem;
         }
 
+        /* Category Buttons */
         .category-buttons {
             display: flex;
             gap: 1rem;
@@ -90,81 +127,107 @@
         .category-btn {
             padding: 0.75rem 1.5rem;
             border: none;
-            border-radius: 25px;
-            background: #f0f4ff;
-            color: #4285f4;
+            border-radius: 50px;
+            background: rgba(66, 133, 244, 0.1);
+            color: var(--primary-color);
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .category-btn:hover, .category-btn.active {
-            background: #4285f4;
-            color: white;
+            background: var(--primary-color);
+            color: var(--surface);
             transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(66, 133, 244, 0.3);
         }
 
+        /* Map Container */
         .map-container {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         }
 
         .map-title {
             font-size: 1.5rem;
-            font-weight: bold;
+            font-weight: 700;
             margin-bottom: 0.5rem;
-            color: #333;
+            color: var(--text-primary);
         }
 
         .map-subtitle {
-            color: #666;
+            color: var(--text-secondary);
             margin-bottom: 1.5rem;
         }
 
         .australia-map {
             width: 100%;
-            height: 250px;
-            background: linear-gradient(45deg, #ffeaa7, #fab1a0);
-            border-radius: 8px;
+            height: 300px;
+            background: linear-gradient(45deg, var(--warning-color), rgba(231, 76, 60, 0.8));
+            border-radius: 12px;
             position: relative;
             margin-bottom: 1rem;
+            overflow: hidden;
         }
 
+        /* City Markers */
         .city-marker {
             position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #e17055;
+            width: 12px;
+            height: 12px;
+            background: var(--danger-color);
             border-radius: 50%;
             cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid var(--surface);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .city-marker:hover {
+            transform: scale(1.2);
+            z-index: 10;
         }
 
         .city-marker::after {
             content: attr(data-city);
             position: absolute;
-            top: -25px;
+            top: -30px;
             left: 50%;
             transform: translateX(-50%);
             font-size: 0.8rem;
-            color: #333;
+            color: var(--text-primary);
+            background: var(--surface);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
         .temp-marker::after {
             content: attr(data-temp);
             position: absolute;
-            top: 12px;
+            top: 16px;
             left: 50%;
             transform: translateX(-50%);
             font-size: 0.7rem;
-            color: #666;
+            color: var(--text-secondary);
+            background: var(--surface);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
         }
 
+        /* Legend */
         .legend {
             display: flex;
-            gap: 1rem;
+            gap: 1.5rem;
             font-size: 0.9rem;
+            flex-wrap: wrap;
         }
 
         .legend-item {
@@ -174,19 +237,25 @@
         }
 
         .legend-color {
-            width: 12px;
-            height: 12px;
-            border-radius: 2px;
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
 
+        /* Sections */
         .section {
             display: none;
-            background: white;
-            border-radius: 12px;
+            background: var(--surface);
+            border-radius: 16px;
             padding: 2rem;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            animation: fadeIn 0.5s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
         }
 
         @keyframes fadeIn {
@@ -194,52 +263,57 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .section.active {
-            display: block;
-        }
-
         .section h2 {
-            font-size: 2rem;
+            font-size: 2.5rem;
             margin-bottom: 1rem;
-            color: #333;
+            color: var(--text-primary);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         .section-subtitle {
-            color: #666;
+            color: var(--text-secondary);
             margin-bottom: 2rem;
+            font-size: 1.1rem;
         }
 
+        /* Grid System */
         .grid {
             display: grid;
             gap: 2rem;
         }
 
         .grid-2 {
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         }
 
         .grid-3 {
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         }
 
+        /* Cards */
         .card {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 1.5rem;
-            border: 1px solid #e9ecef;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: var(--background);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
         }
 
         .card h3 {
-            color: #333;
+            color: var(--text-primary);
             margin-bottom: 1rem;
+            font-weight: 600;
         }
 
+        /* Forms */
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -248,264 +322,270 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
-            color: #333;
+            color: var(--text-primary);
         }
 
         .form-control {
             width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
             font-size: 1rem;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s ease;
+            background: var(--surface);
         }
 
         .form-control:focus {
-            border-color: #4285f4;
             outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
         }
 
+        /* Buttons */
         .btn {
             padding: 0.75rem 1.5rem;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 500;
             transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            font-size: 1rem;
         }
 
         .btn-primary {
-            background: #4285f4;
-            color: white;
+            background: var(--primary-color);
+            color: var(--surface);
         }
 
         .btn-primary:hover {
-            background: #3367d6;
+            background: rgba(66, 133, 244, 0.9);
             transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 16px rgba(66, 133, 244, 0.3);
         }
 
+        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+            gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
         .stat-card {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
+            background: var(--background);
+            padding: 2rem 1.5rem;
+            border-radius: 12px;
             text-align: center;
-            transition: transform 0.3s ease;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
         }
 
         .stat-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
         }
 
         .stat-value {
-            font-size: 2rem;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
         }
 
         .stat-value.positive {
-            color: #e74c3c;
+            color: var(--danger-color);
         }
 
         .stat-value.neutral {
-            color: #3498db;
+            color: var(--info-color);
         }
 
         .stat-label {
-            color: #666;
+            color: var(--text-secondary);
             font-size: 0.9rem;
+            font-weight: 500;
         }
 
+        /* Weather Grid */
         .weather-grid {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 1rem;
             margin: 2rem 0;
         }
 
         .weather-day {
             text-align: center;
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 8px;
-            transition: transform 0.3s ease;
+            padding: 1.5rem 1rem;
+            background: var(--background);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
         }
 
         .weather-day:hover {
-            transform: scale(1.05);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
         }
 
         .weather-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
         }
 
         .temp-high {
-            font-weight: bold;
-            color: #333;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 1.2rem;
         }
 
         .temp-low {
-            color: #666;
-            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-size: 1rem;
         }
 
         .rain-chance {
-            color: #3498db;
+            color: var(--info-color);
             font-size: 0.8rem;
             margin-top: 0.5rem;
         }
 
+        /* Alerts */
         .alert {
-            padding: 1rem;
-            border-radius: 8px;
+            padding: 1.5rem;
+            border-radius: 12px;
             margin-bottom: 1rem;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 1rem;
-            transition: transform 0.3s ease;
-        }
-
-        .alert:hover {
-            transform: translateX(5px);
+            border-left: 4px solid;
         }
 
         .alert-warning {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            color: #856404;
+            background: rgba(255, 234, 167, 0.1);
+            border-left-color: var(--warning-color);
         }
 
         .alert-danger {
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
-            color: #721c24;
+            background: rgba(231, 76, 60, 0.1);
+            border-left-color: var(--danger-color);
         }
 
         .alert-info {
-            background: #d1ecf1;
-            border: 1px solid #bee5eb;
-            color: #0c5460;
+            background: rgba(52, 152, 219, 0.1);
+            border-left-color: var(--info-color);
         }
 
         .alert-icon {
             font-size: 1.5rem;
+            margin-top: 0.25rem;
         }
 
-        .chart-container {
-            height: 300px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            margin: 1rem 0;
-            position: relative;
-            overflow: hidden;
+        /* Adaptation Cards */
+        .adaptation-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
         }
 
-        .chart-container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 100%);
-            z-index: 1;
+        .adaptation-card {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
         }
 
-        .chart-container p {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            padding: 1rem;
+        .adaptation-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.2);
         }
 
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #27ae60;
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 1001;
-            display: none;
-            animation: slideIn 0.3s ease;
+        .adaptation-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
         }
 
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .hero {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .hero-content h1 {
-                font-size: 2rem;
-            }
-
-            .nav {
-                flex-wrap: wrap;
-                gap: 0.5rem;
-            }
-
-            .grid-2, .grid-3 {
-                grid-template-columns: 1fr;
-            }
-
-            .weather-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 480px) {
             .header {
                 flex-direction: column;
                 gap: 1rem;
                 padding: 1rem;
             }
-
+            
             .nav {
-                width: 100%;
                 justify-content: center;
+                gap: 0.5rem;
             }
-
+            
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 2rem;
+                gap: 2rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+            
+            .section h2 {
+                font-size: 2rem;
+            }
+            
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            
             .weather-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-
-            .category-buttons {
-                justify-content: center;
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
+        }
+
+        /* Sample data visualization */
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            margin: 1rem 0;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
     <header class="header">
-        <div class="logo">PROVIDE Climate Risk Dashboard</div>
+        <div class="logo">🌍 Australian Climate Risk Dashboard</div>
         <nav class="nav">
-            <div class="nav-item active" onclick="showSection('dashboard')">Dashboard</div>
-            <div class="nav-item" onclick="showSection('explore')">Explore</div>
-            <div class="nav-item" onclick="showSection('forecasts')">Forecasts</div>
-            <div class="nav-item" onclick="showSection('historical')">Historical Data</div>
-            <div class="nav-item" onclick="showSection('alerts')">Alerts</div>
-            <div class="nav-item" onclick="showSection('adaptation')">Adaptation</div>
-            <div class="nav-item" onclick="showSection('methodology')">Methodology</div>
+            <div class="nav-item active" onclick="showSection('dashboard')">🏠 Dashboard</div>
+            <div class="nav-item" onclick="showSection('explore')">🗺️ Explore</div>
+            <div class="nav-item" onclick="showSection('forecasts')">☁️ Forecasts</div>
+            <div class="nav-item" onclick="showSection('historical')">📊 Historical Data</div>
+            <div class="nav-item" onclick="showSection('alerts')">⚠️ Alerts</div>
+            <div class="nav-item" onclick="showSection('adaptation')">🌱 Adaptation</div>
+            <div class="nav-item" onclick="showSection('methodology')">ℹ️ Methodology</div>
         </nav>
     </header>
 
@@ -517,285 +597,508 @@
                     <h1>A database for global-to-local climate impacts</h1>
                     <p>Explore data across scales and sectors</p>
                     <div class="category-buttons">
-                        <button class="category-btn active" onclick="showCategoryContent('Terrestrial Climate')">Terrestrial Climate</button>
-                        <button class="category-btn" onclick="showCategoryContent('Marine Climate')">Marine Climate</button>
-                        <button class="category-btn" onclick="showCategoryContent('Urban heat stress')">Urban heat stress</button>
-                        <button class="category-btn" onclick="showCategoryContent('Adaptation case studies')">Adaptation case studies</button>
+                        <button class="category-btn active" data-category="terrestrial">
+                            🏔️ Terrestrial Climate
+                        </button>
+                        <button class="category-btn" data-category="marine">
+                            🌊 Marine Climate
+                        </button>
+                        <button class="category-btn" data-category="urban">
+                            🏙️ Urban heat stress
+                        </button>
+                        <button class="category-btn" data-category="adaptation">
+                            🌱 Adaptation case studies
+                        </button>
                     </div>
                     <p>Learn more about how climate change will impact temperatures, soil moisture and fire weather. We cover data for most countries in the world.</p>
-                    <button class="btn btn-primary" onclick="showSection('explore')">Explore Data →</button>
+                    <button class="btn btn-primary" onclick="showSection('explore')">
+                        ➡️ Explore Data
+                    </button>
                 </div>
                 <div class="map-container">
-                    <div class="map-title">Australia Topographic Climate Map</div>
-                    <div class="map-subtitle">Relief map visualization with real-time climate data</div>
-                    <div class="australia-map">
-                        <div class="city-marker" style="top: 30%; left: 25%;" data-city="Perth" data-temp="22°C"></div>
-                        <div class="city-marker temp-marker" style="top: 30%; left: 25%;"></div>
-                        <div class="city-marker" style="top: 20%; left: 80%;" data-city="Brisbane" data-temp="26°C"></div>
-                        <div class="city-marker temp-marker" style="top: 20%; left: 80%;"></div>
-                        <div class="city-marker" style="top: 60%; left: 85%;" data-city="Sydney" data-temp="24°C"></div>
-                        <div class="city-marker temp-marker" style="top: 60%; left: 85%;"></div>
-                        <div class="city-marker" style="top: 80%; left: 70%;" data-city="Melbourne" data-temp="18°C"></div>
-                        <div class="city-marker temp-marker" style="top: 80%; left: 70%;"></div>
-                        <div class="city-marker" style="top: 10%; left: 50%;" data-city="Darwin" data-temp="32°C"></div>
-                        <div class="city-marker temp-marker" style="top: 10%; left: 50%;"></div>
+                    <div class="map-title">Australia Climate Overview</div>
+                    <div class="map-subtitle">Real-time climate data visualization</div>
+                    <div class="australia-map" id="australia-map">
+                        <!-- City markers will be dynamically added -->
                     </div>
                     <div class="legend">
                         <div class="legend-item">
-                            <div class="legend-color" style="background: #e74c3c;"></div>
-                            <span>High Temperature (>25°C)</span>
+                            <div class="legend-color" style="background: #e17055;"></div>
+                            <span>Temperature Data</span>
                         </div>
                         <div class="legend-item">
-                            <div class="legend-color" style="background: #f39c12;"></div>
-                            <span>Moderate (20-25°C)</span>
+                            <div class="legend-color" style="background: #74b9ff;"></div>
+                            <span>Rainfall Data</span>
                         </div>
                         <div class="legend-item">
-                            <div class="legend-color" style="background: #3498db;"></div>
-                            <span>Cool (<20°C)</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: #e67e22;"></div>
-                            <span>Extreme (>30°C)</span>
+                            <div class="legend-color" style="background: #00b894;"></div>
+                            <span>Wind Data</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="grid grid-3">
-                <div class="card" onclick="showSection('explore')">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">🌍</div>
-                    <h3>Global Climate Data</h3>
-                    <p>Access comprehensive climate datasets from around the world with detailed regional analysis and projections.</p>
+
+            <!-- Quick Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value positive" id="avg-temp">24°C</div>
+                    <div class="stat-label">Average Temperature</div>
                 </div>
-                <div class="card" onclick="showSection('adaptation')">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">🌱</div>
-                    <h3>Adaptation Strategies</h3>
-                    <p>Discover effective climate adaptation measures and case studies from communities worldwide.</p>
+                <div class="stat-card">
+                    <div class="stat-value neutral" id="humidity">62%</div>
+                    <div class="stat-label">Average Humidity</div>
                 </div>
-                <div class="card" onclick="showSection('methodology')">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">📊</div>
-                    <h3>Research Methodology</h3>
-                    <p>Learn about our scientific approach and methodologies for climate impact assessment.</p>
+                <div class="stat-card">
+                    <div class="stat-value neutral" id="wind-speed">15 km/h</div>
+                    <div class="stat-label">Average Wind Speed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value positive" id="active-alerts">3</div>
+                    <div class="stat-label">Active Alerts</div>
+                </div>
+            </div>
+
+            <!-- Sample Alerts -->
+            <div class="alert alert-warning">
+                <div class="alert-icon">⚠️</div>
+                <div class="alert-content">
+                    <strong>High Temperature Alert - Sydney</strong>
+                    <p>Temperature has reached 38°C. Heat stress conditions possible.</p>
+                    <small>📍 Sydney, NSW</small>
+                </div>
+            </div>
+            <div class="alert alert-info">
+                <div class="alert-icon">ℹ️</div>
+                <div class="alert-content">
+                    <strong>Weather Update - Melbourne</strong>
+                    <p>Cool change expected with temperatures dropping to 18°C overnight.</p>
+                    <small>📍 Melbourne, VIC</small>
                 </div>
             </div>
         </div>
 
         <!-- Explore Section -->
         <div id="explore" class="section">
-            <h2>Explore Climate Data</h2>
+            <h2>🗺️ Explore Climate Data</h2>
             <p class="section-subtitle">Interactive exploration of climate patterns across Australia</p>
+            
             <div class="grid grid-2">
                 <div class="card">
-                    <h3>Location</h3>
+                    <h3>Location Search</h3>
                     <div class="form-group">
-                        <select class="form-control" id="location-select" onchange="updateLocationData()">
-                            <option>Sydney, NSW</option>
-                            <option>Melbourne, VIC</option>
-                            <option>Brisbane, QLD</option>
-                            <option>Perth, WA</option>
-                            <option>Adelaide, SA</option>
-                        </select>
+                        <label for="location-search">Search for a city or region:</label>
+                        <input type="text" id="location-search" class="form-control" placeholder="Enter city name...">
+                        <button class="btn btn-primary mt-2" onclick="searchLocation()">
+                            🔍 Search
+                        </button>
                     </div>
                 </div>
+                
                 <div class="card">
-                    <h3>Climate Metric</h3>
+                    <h3>Data Filters</h3>
                     <div class="form-group">
-                        <select class="form-control" id="metric-select">
-                            <option>Temperature</option>
-                            <option>Rainfall</option>
-                            <option>Humidity</option>
-                            <option>Wind Speed</option>
+                        <label for="data-type">Data Type:</label>
+                        <select id="data-type" class="form-control">
+                            <option value="temperature">Temperature</option>
+                            <option value="humidity">Humidity</option>
+                            <option value="rainfall">Rainfall</option>
+                            <option value="wind">Wind Speed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="time-range">Time Range:</label>
+                        <select id="time-range" class="form-control">
+                            <option value="24h">Last 24 Hours</option>
+                            <option value="7d">Last 7 Days</option>
+                            <option value="30d">Last 30 Days</option>
+                            <option value="1y">Last Year</option>
                         </select>
                     </div>
                 </div>
             </div>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value positive">+1.9°C</div>
-                    <div class="stat-label">Temperature Change</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value neutral">+5.2%</div>
-                    <div class="stat-label">Rainfall Variation</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value positive">+180%</div>
-                    <div class="stat-label">Extreme Events</div>
-                </div>
-            </div>
-            <div class="grid grid-2">
-                <div class="card">
-                    <h3>Climate Trends</h3>
-                    <div class="chart-container">
-                        <p>📈 Interactive climate trend visualization<br>Data for Sydney, NSW</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3>Regional Comparison</h3>
-                    <div style="margin-top: 1rem;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #eee;">
-                            <span>Sydney, NSW</span>
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <span>+1.9°C</span>
-                                <div style="width: 60px; height: 8px; background: #e74c3c; border-radius: 4px;"></div>
-                            </div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #eee;">
-                            <span>Melbourne, VIC</span>
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <span>+0.8°C</span>
-                                <div style="width: 40px; height: 8px; background: #e74c3c; border-radius: 4px;"></div>
-                            </div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #eee;">
-                            <span>Brisbane, QLD</span>
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <span>+1.2°C</span>
-                                <div style="width: 50px; height: 8px; background: #f39c12; border-radius: 4px;"></div>
-                            </div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0;">
-                            <span>Perth, WA</span>
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <span>+1.7°C</span>
-                                <div style="width: 55px; height: 8px; background: #e74c3c; border-radius: 4px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            
+            <div class="chart-placeholder">
+                📊 Climate data visualization would appear here with real data from weather APIs
             </div>
         </div>
 
         <!-- Forecasts Section -->
         <div id="forecasts" class="section">
-            <h2>Weather Forecasts</h2>
-            <p class="section-subtitle">Detailed weather predictions for Australian locations</p>
-            <div class="grid grid-2">
-                <div class="card">
-                    <h3>Select Location</h3>
-                    <select class="form-control" id="forecast-location">
-                        <option>Sydney, NSW</option>
-                        <option>Melbourne, VIC</option>
-                        <option>Brisbane, QLD</option>
-                        <option>Perth, WA</option>
-                    </select>
+            <h2>☁️ Weather Forecasts</h2>
+            <p class="section-subtitle">7-day weather outlook for major Australian cities</p>
+            
+            <div class="weather-grid">
+                <div class="weather-day">
+                    <div>Mon 27</div>
+                    <div class="weather-icon">☀️</div>
+                    <div class="temp-high">26°</div>
+                    <div class="temp-low">18°</div>
+                    <div class="rain-chance">10% rain</div>
+                    <small>Sydney</small>
                 </div>
-                <div class="card">
-                    <h3>Forecast Period</h3>
-                    <select class="form-control" id="forecast-period">
-                        <option>7 Days</option>
-                        <option>14 Days</option>
-                        <option>30 Days</option>
-                    </select>
+                <div class="weather-day">
+                    <div>Tue 28</div>
+                    <div class="weather-icon">⛅</div>
+                    <div class="temp-high">24°</div>
+                    <div class="temp-low">16°</div>
+                    <div class="rain-chance">30% rain</div>
+                    <small>Melbourne</small>
+                </div>
+                <div class="weather-day">
+                    <div>Wed 29</div>
+                    <div class="weather-icon">🌧️</div>
+                    <div class="temp-high">22°</div>
+                    <div class="temp-low">14°</div>
+                    <div class="rain-chance">80% rain</div>
+                    <small>Brisbane</small>
+                </div>
+                <div class="weather-day">
+                    <div>Thu 30</div>
+                    <div class="weather-icon">☀️</div>
+                    <div class="temp-high">28°</div>
+                    <div class="temp-low">20°</div>
+                    <div class="rain-chance">5% rain</div>
+                    <small>Perth</small>
+                </div>
+                <div class="weather-day">
+                    <div>Fri 31</div>
+                    <div class="weather-icon">⛅</div>
+                    <div class="temp-high">25°</div>
+                    <div class="temp-low">17°</div>
+                    <div class="rain-chance">20% rain</div>
+                    <small>Adelaide</small>
+                </div>
+                <div class="weather-day">
+                    <div>Sat 1</div>
+                    <div class="weather-icon">🌤️</div>
+                    <div class="temp-high">23°</div>
+                    <div class="temp-low">15°</div>
+                    <div class="rain-chance">15% rain</div>
+                    <small>Canberra</small>
+                </div>
+                <div class="weather-day">
+                    <div>Sun 2</div>
+                    <div class="weather-icon">☀️</div>
+                    <div class="temp-high">27°</div>
+                    <div class="temp-low">19°</div>
+                    <div class="rain-chance">0% rain</div>
+                    <small>Darwin</small>
                 </div>
             </div>
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <h3>7-Day Forecast</h3>
-                    <button class="btn btn-primary" onclick="showToast('Forecast downloaded successfully!')">📥 Download Forecast</button>
+            
+            <div class="chart-placeholder">
+                📈 Temperature and rainfall forecast charts would display here with real API data
+            </div>
+        </div>
+
+        <!-- Historical Data Section -->
+        <div id="historical" class="section">
+            <h2>📊 Historical Climate Data</h2>
+            <p class="section-subtitle">Long-term climate trends and patterns</p>
+            
+            <div class="grid grid-2">
+                <div class="chart-placeholder">
+                    📉 Temperature Trends - Historical temperature data visualization
                 </div>
-                <div class="weather-grid">
-                    <div class="weather-day">
-                        <div><strong>Today</strong></div>
-                        <div class="weather-icon">☀️</div>
-                        <div class="temp-high">28°</div>
-                        <div class="temp-low">18°</div>
-                        <div class="rain-chance">0%</div>
-                    </div>
-                    <div class="weather-day">
-                        <div><strong>Tue</strong></div>
-                        <div class="weather-icon">⛅</div>
-                        <div class="temp-high">26°</div>
-                        <div class="temp-low">16°</div>
-                        <div class="rain-chance">20%</div>
-                    </div>
-                    <div class="weather-day">
-                        <div><strong>Wed</strong></div>
-                        <div class="weather-icon">🌧️</div>
-                        <div class="temp-high">22°</div>
-                        <div class="temp-low">14°</div>
-                        <div class="rain-chance">75%</div>
-                    </div>
-                    <div class="weather-day">
-                        <div><strong>Thu</strong></div>
-                        <div class="weather-icon">⛈️</div>
-                        <div class="temp-high">20°</div>
-                        <div class="temp-low">12°</div>
-                        <div class="rain-chance">90%</div>
-                    </div>
-                    <div class="weather-day">
-                        <div><strong>Fri</strong></div>
-                        <div class="weather-icon">☁️</div>
-                        <div class="temp-high">23°</div>
-                        <div class="temp-low">13°</div>
-                        <div class="rain-chance">30%</div>
-                    </div>
-                    <div class="weather-day">
-                        <div><strong>Sat</strong></div>
-                        <div class="weather-icon">☀️</div>
-                        <div class="temp-high">25°</div>
-                        <div class="temp-low">15°</div>
-                        <div class="rain-chance">10%</div>
-                    </div>
-                    <div class="weather-day">
-                        <div><strong>Sun</strong></div>
-                        <div class="weather-icon">☀️</div>
-                        <div class="temp-high">27°</div>
-                        <div class="temp-low">17°</div>
-                        <div class="rain-chance">5%</div>
-                    </div>
+                <div class="chart-placeholder">
+                    🌧️ Rainfall Patterns - Historical precipitation data
                 </div>
+            </div>
+            
+            <div class="chart-placeholder">
+                🏙️ Climate Comparison by City - Comparative analysis across major Australian cities
             </div>
         </div>
 
         <!-- Alerts Section -->
         <div id="alerts" class="section">
-            <h2>Emergency Alerts</h2>
-            <p class="section-subtitle">Real-time climate and weather emergency notifications across Australia</p>
-            <div class="grid grid-2">
-                <div class="card">
-                    <h3>Filter by Location</h3>
-                    <select class="form-control" id="alert-location">
-                        <option>All Locations</option>
-                        <option>Sydney, NSW</option>
-                        <option>Melbourne, VIC</option>
-                        <option>Brisbane, QLD</option>
-                        <option>Perth, WA</option>
-                    </select>
-                </div>
-                <div class="card">
-                    <h3>Filter by Type</h3>
-                    <select class="form-control" id="alert-type">
-                        <option>All Alert Types</option>
-                        <option>Fire Warning</option>
-                        <option>Severe Weather</option>
-                        <option>Heat Advisory</option>
-                        <option>Flood Alert</option>
-                    </select>
+            <h2>⚠️ Climate Alerts & Warnings</h2>
+            <p class="section-subtitle">Real-time climate alerts and emergency warnings</p>
+            
+            <div class="alert alert-danger">
+                <div class="alert-icon">🚨</div>
+                <div class="alert-content">
+                    <strong>Extreme Fire Danger - NSW</strong>
+                    <p>Catastrophic fire weather conditions with temperatures above 40°C and strong winds.</p>
+                    <small>📍 Multiple regions in New South Wales</small>
                 </div>
             </div>
+            
+            <div class="alert alert-warning">
+                <div class="alert-icon">🌡️</div>
+                <div class="alert-content">
+                    <strong>Heatwave Warning - South Australia</strong>
+                    <p>Extended period of high temperatures expected over the next 3 days.</p>
+                    <small>📍 Adelaide metropolitan area</small>
+                </div>
+            </div>
+            
+            <div class="grid grid-3">
+                <div class="card">
+                    <h3>🔥 Fire Weather</h3>
+                    <p>Monitor fire danger ratings and weather conditions that contribute to fire risk.</p>
+                    <div class="alert-status" style="color: var(--danger-color); font-weight: bold;">EXTREME</div>
+                </div>
+                <div class="card">
+                    <h3>🌡️ Heat Warnings</h3>
+                    <p>Track extreme temperature events and heat stress conditions.</p>
+                    <div class="alert-status" style="color: var(--warning-color); font-weight: bold;">MODERATE</div>
+                </div>
+                <div class="card">
+                    <h3>⛈️ Severe Weather</h3>
+                    <p>Monitor storms, cyclones, and other severe weather events.</p>
+                    <div class="alert-status" style="color: var(--info-color); font-weight: bold;">LOW</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Adaptation Section -->
+        <div id="adaptation" class="section">
+            <h2>🌱 Climate Adaptation Strategies</h2>
+            <p class="section-subtitle">Learn about climate adaptation and resilience measures</p>
+            
+            <div class="adaptation-cards">
+                <div class="adaptation-card">
+                    <div class="adaptation-icon">🌳</div>
+                    <h3>Urban Green Infrastructure</h3>
+                    <p>Implementing green roofs, parks, and urban forests to reduce heat island effects and improve air quality.</p>
+                    <button class="btn btn-primary">Learn More</button>
+                </div>
+                <div class="adaptation-card">
+                    <div class="adaptation-icon">💧</div>
+                    <h3>Water Management</h3>
+                    <p>Sustainable water practices including rainwater harvesting, efficient irrigation, and drought-resistant landscaping.</p>
+                    <button class="btn btn-primary">Learn More</button>
+                </div>
+                <div class="adaptation-card">
+                    <div class="adaptation-icon">🏠</div>
+                    <h3>Climate-Resilient Buildings</h3>
+                    <p>Building design strategies for extreme weather resistance, energy efficiency, and occupant comfort.</p>
+                    <button class="btn btn-primary">Learn More</button>
+                </div>
+                <div class="adaptation-card">
+                    <div class="adaptation-icon">⚡</div>
+                    <h3>Renewable Energy</h3>
+                    <p>Transitioning to clean energy sources to reduce emissions and improve energy security.</p>
+                    <button class="btn btn-primary">Learn More</button>
+                </div>
+                <div class="adaptation-card">
+                    <div class="adaptation-icon">🌾</div>
+                    <h3>Sustainable Agriculture</h3>
+                    <p>Climate-smart farming practices that adapt to changing conditions while maintaining productivity.</p>
+                    <button class="btn btn-primary">Learn More</button>
+                </div>
+                <div class="adaptation-card">
+                    <div class="adaptation-icon">🛡️</div>
+                    <h3>Disaster Preparedness</h3>
+                    <p>Community resilience planning and emergency response systems for climate-related disasters.</p>
+                    <button class="btn btn-primary">Learn More</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Methodology Section -->
+        <div id="methodology" class="section">
+            <h2>ℹ️ Methodology & Data Sources</h2>
+            <p class="section-subtitle">Understanding our data collection and analysis methods</p>
+            
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>📊 Data Collection</h3>
+                    <ul>
+                        <li>Real-time weather station data from Bureau of Meteorology</li>
+                        <li>Satellite observations for temperature and precipitation</li>
+                        <li>Climate model projections from CSIRO and IPCC</li>
+                        <li>Historical climate records spanning 100+ years</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🔬 Analysis Methods</h3>
+                    <ul>
+                        <li>Statistical downscaling for local projections</li>
+                        <li>Ensemble modeling for uncertainty quantification</li>
+                        <li>Machine learning for pattern recognition</li>
+                        <li>Risk assessment frameworks</li>
+                    </ul>
+                </div>
+            </div>
+            
             <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                    <h3>Active Alerts</h3>
-                    <span style="background: #e74c3c; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.9rem;">3 Active</span>
+                <h3>✅ Quality Assurance</h3>
+                <p>All data undergoes rigorous quality control processes including:</p>
+                <ul>
+                    <li>Automated outlier detection and validation</li>
+                    <li>Cross-validation with multiple data sources</li>
+                    <li>Regular calibration and bias correction</li>
+                    <li>Peer review of analysis methods</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>🔌 API Access</h3>
+                <p>Access our climate data programmatically:</p>
+                <div style="background: #333; color: #fff; padding: 1rem; border-radius: 8px; font-family: monospace;">
+                    GET /api/climate-data?location=Sydney&limit=100<br>
+                    GET /api/weather-forecast?location=Melbourne&days=7<br>
+                    GET /api/alerts?active_only=true
                 </div>
-                <div class="alert alert-danger">
-                    <div class="alert-icon">🔥</div>
-                    <div>
-                        <div style="font-weight: bold; margin-bottom: 0.5rem;">Fire Warning - Sydney</div>
-                        <div>Extreme fire danger forecast for Blue Mountains region. Total fire ban in effect.</div>
-                        <div style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">28/5/2025</div>
-                        <div style="margin-top: 1rem;">
-                            <button class="btn btn-primary" style="margin-right: 1rem;" onclick="showToast('Alert details viewed')">View Details</button>
-                            <button class="btn" style="background: #6c757d; color: white;" onclick="showToast('Alert shared successfully')">Share Alert</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="alert alert-warning">
-                    <div class="alert-icon">⛈️</div>
-                    <div>
-                        <div style="font-weight: bold; margin-bottom: 0.5rem;">Severe Weather - Sydney</div>
-                        <div>Possible severe thunderstorms developing this afternoon across central NSW.</div>
-                        <div style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">28/5/2025</div>
-                        <div style="margin-top: 1rem;">
-                            <button class="btn btn-primary" style="margin-right: 1rem;" onclick="showToast('Alert details viewed')">View Details</button>
-                            <button class="btn" style="background: #6c757
+                <button class="btn btn-primary" style="margin-top: 1rem;">View API Documentation</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dashboard JavaScript
+        let currentSection = 'dashboard';
+        
+        // Sample climate data for Australian cities
+        const climateData = [
+            { name: 'Sydney', lat: -33.8688, lon: 151.2093, temp: 24, humidity: 65, wind: 15, position: { top: '60%', left: '85%' } },
+            { name: 'Melbourne', lat: -37.8136, lon: 144.9631, temp: 18, humidity: 70, wind: 12, position: { top: '80%', left: '70%' } },
+            { name: 'Brisbane', lat: -27.4698, lon: 153.0251, temp: 26, humidity: 60, wind: 18, position: { top: '20%', left: '80%' } },
+            { name: 'Perth', lat: -31.9505, lon: 115.8605, temp: 22, humidity: 55, wind: 20, position: { top: '30%', left: '25%' } },
+            { name: 'Adelaide', lat: -34.9285, lon: 138.6007, temp: 20, humidity: 62, wind: 14, position: { top: '70%', left: '60%' } },
+            { name: 'Darwin', lat: -12.4634, lon: 130.8456, temp: 32, humidity: 85, wind: 25, position: { top: '5%', left: '60%' } },
+            { name: 'Canberra', lat: -35.2809, lon: 149.1300, temp: 19, humidity: 68, wind: 10, position: { top: '65%', left: '82%' } },
+            { name: 'Hobart', lat: -42.8821, lon: 147.3272, temp: 16, humidity: 75, wind: 16, position: { top: '90%', left: '75%' } }
+        ];
+
+        // Initialize the dashboard
+        function initializeDashboard() {
+            initializeMap();
+            calculateStats();
+            console.log('Climate Dashboard initialized');
+        }
+
+        // Show specific section
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show target section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // Update navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('onclick')?.includes(sectionId)) {
+                    item.classList.add('active');
+                }
+            });
+
+            currentSection = sectionId;
+        }
+
+        // Initialize the Australia map with city markers
+        function initializeMap() {
+            const mapContainer = document.getElementById('australia-map');
+            if (!mapContainer) return;
+
+            // Clear existing markers
+            mapContainer.innerHTML = '';
+
+            // Create markers for each city
+            climateData.forEach(city => {
+                const marker = document.createElement('div');
+                marker.className = 'city-marker';
+                marker.style.top = city.position.top;
+                marker.style.left = city.position.left;
+                marker.setAttribute('data-city', city.name);
+                marker.setAttribute('data-temp', `${city.temp}°C`);
+                
+                marker.addEventListener('click', () => {
+                    showCityDetails(city);
+                });
+                
+                mapContainer.appendChild(marker);
+
+                // Add temperature marker
+                const tempMarker = document.createElement('div');
+                tempMarker.className = 'city-marker temp-marker';
+                tempMarker.style.top = city.position.top;
+                tempMarker.style.left = city.position.left;
+                tempMarker.setAttribute('data-temp', `${city.temp}°C`);
+                mapContainer.appendChild(tempMarker);
+            });
+        }
+
+        // Calculate and display statistics
+        function calculateStats() {
+            const avgTemp = climateData.reduce((sum, city) => sum + city.temp, 0) / climateData.length;
+            const avgHumidity = climateData.reduce((sum, city) => sum + city.humidity, 0) / climateData.length;
+            const avgWind = climateData.reduce((sum, city) => sum + city.wind, 0) / climateData.length;
+
+            document.getElementById('avg-temp').textContent = `${Math.round(avgTemp)}°C`;
+            document.getElementById('humidity').textContent = `${Math.round(avgHumidity)}%`;
+            document.getElementById('wind-speed').textContent = `${Math.round(avgWind)} km/h`;
+        }
+
+        // Show city details
+        function showCityDetails(city) {
+            const details = `
+City: ${city.name}
+Temperature: ${city.temp}°C
+Humidity: ${city.humidity}%
+Wind Speed: ${city.wind} km/h
+Coordinates: ${city.lat}, ${city.lon}
+            `;
+            alert(details.trim());
+        }
+
+        // Search for location
+        function searchLocation() {
+            const searchInput = document.getElementById('location-search');
+            if (!searchInput) return;
+
+            const query = searchInput.value.trim().toLowerCase();
+            if (!query) return;
+
+            const results = climateData.filter(city => 
+                city.name.toLowerCase().includes(query)
+            );
+
+            if (results.length === 0) {
+                alert(`No data found for "${query}"`);
+                return;
+            }
+
+            // Show results
+            const city = results[0];
+            showCityDetails(city);
+            searchInput.value = '';
+        }
+
+        // Category button handlers
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize dashboard
+            initializeDashboard();
+
+            // Category button event listeners
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const category = this.getAttribute('data-category');
+                    console.log(`Filtering by category: ${category}`);
+                });
+            });
+
+            // Search input enter key handler
+            const searchInput = document.getElementById('location-search');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        searchLocation();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
