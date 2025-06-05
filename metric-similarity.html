@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Metric Similarity – Climate Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="logo">PROVIDE Climate Risk Dashboard</div>
+    <nav class="nav">
+      <a class="nav-item" href="index.html">Dashboard</a>
+      <a class="nav-item" href="mission.html">Mission</a>
+      <a class="nav-item" href="weatherstation-view.html">Weather Station View</a>
+      <a class="nav-item" href="climate-metric-view.html">Climate Metric View</a>
+      <a class="nav-item" href="station-similarity.html">Station Similarity</a>
+      <a class="nav-item active" href="metric-similarity.html">Metric Similarity</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <h2>Similar Climate Metrics</h2>
+
+      <form action="metric-similarity.html" method="get">
+        <label>
+          Reference Metric:
+          <input type="text" name="ref_metric" value="{{ ref_metric }}" />
+        </label>
+
+        <label>
+          Period 1:
+          <input type="date" name="p1_start" value="{{ p1_start }}" /> to
+          <input type="date" name="p1_end" value="{{ p1_end }}" />
+        </label>
+
+        <label>
+          Period 2:
+          <input type="date" name="p2_start" value="{{ p2_start }}" /> to
+          <input type="date" name="p2_end" value="{{ p2_end }}" />
+        </label>
+
+        <label>
+          Top N:
+          <input type="number" name="top_n" value="{{ top_n }}" />
+        </label>
+
+        <button type="submit">Find Similar</button>
+      </form>
+
+      <h3>Results</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Total1</th>
+            <th>Total2</th>
+            <th>% Change</th>
+            <th>Difference</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>
